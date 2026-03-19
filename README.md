@@ -1,6 +1,6 @@
 <h1>ExpNo 5 : Implement Minimax Search Algorithm for a Simple TIC-TAC-TOE game</h1> 
-<h3>Name:           </h3>
-<h3>Register Number/Staff Id:          </h3>
+<h3>Name:  VIGNESHWARAN.P   </h3>
+<h3>Register Number/Staff Id:  212224040358  </h3>
 <H3>Aim:</H3>
 <p>
     Implement Minimax Search Algorithm for a Simple TIC-TAC-TOE game
@@ -112,5 +112,99 @@ end
 ![image](https://github.com/natsaravanan/19AI405FUNDAMENTALSOFARTIFICIALINTELLIGENCE/assets/87870499/a2acb6a1-ed8e-42e5-8968-fe805e4b0255)
 
 <hr>
+## PROGRAM
+
+~~~
+
+board = [
+    [' ', ' ', ' '],
+    [' ', ' ', ' '],
+    [' ', ' ', ' ']
+]
+
+def print_board(b):
+    for row in b:
+        print("|".join(row))
+        print("-" * 5)
+
+def check_winner(b):
+    for i in range(3):
+        if b[i][0] == b[i][1] == b[i][2] != ' ':
+            return b[i][0]
+        if b[0][i] == b[1][i] == b[2][i] != ' ':
+            return b[0][i]
+
+    if b[0][0] == b[1][1] == b[2][2] != ' ':
+        return b[0][0]
+    if b[0][2] == b[1][1] == b[2][0] != ' ':
+        return b[0][2]
+
+    return None
+
+def is_moves_left(b):
+    return any(' ' in row for row in b)
+
+def minimax(b, depth, is_max):
+    winner = check_winner(b)
+
+    if winner == 'X':
+        return 10
+    if winner == 'O':
+        return -10
+    if not is_moves_left(b):
+        return 0
+
+    if is_max:
+        best = -1000
+        for i in range(3):
+            for j in range(3):
+                if b[i][j] == ' ':
+                    b[i][j] = 'X'
+                    best = max(best, minimax(b, depth + 1, False))
+                    b[i][j] = ' '
+        return best
+    else:
+        best = 1000
+        for i in range(3):
+            for j in range(3):
+                if b[i][j] == ' ':
+                    b[i][j] = 'O'
+                    best = min(best, minimax(b, depth + 1, True))
+                    b[i][j] = ' '
+        return best
+
+def find_best_move(b):
+    best_val = -1000
+    best_move = (-1, -1)
+
+    for i in range(3):
+        for j in range(3):
+            if b[i][j] == ' ':
+                b[i][j] = 'X'
+                move_val = minimax(b, 0, False)
+                b[i][j] = ' '
+
+                if move_val > best_val:
+                    best_move = (i, j)
+                    best_val = move_val
+
+    return best_move
+
+board = [
+    ['X', 'O', 'X'],
+    ['O', 'O', ' '],
+    ['X', ' ', ' ']
+]
+
+print("Current Board:")
+print_board(board)
+
+move = find_best_move(board)
+print("\nBest Move for X:", move)
+~~~
+
+## THE OUTPUT
+<img width="376" height="197" alt="image" src="https://github.com/user-attachments/assets/e94b7800-099f-4758-9cee-35498a80fa2b" />
+
 <h2>Result:</h2>
 <p>Thus,Implementation of  Minimax Search Algorithm for a Simple TIC-TAC-TOE game wasa done successfully.</p>
